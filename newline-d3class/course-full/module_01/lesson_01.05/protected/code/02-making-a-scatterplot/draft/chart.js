@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+/* global d3 */
 
 async function drawScatter() {
 
@@ -45,5 +46,15 @@ async function drawScatter() {
         dimensions.margin.top
       }px)`)
 
+  const xScale = d3.scaleLinear()
+      .domain(d3.extent(dataset, xAccessor))
+      .range([0, dimensions.boundedWidth])
+      .nice()
+      console.log(xScale.domain())
+  
+  const yScale = d3.scaleLinear()
+      .domain(d3.extent(dataset, yAccessor))
+      .range([dimensions.boundedHeight, 0])
+      .nice()
 }
 drawScatter()

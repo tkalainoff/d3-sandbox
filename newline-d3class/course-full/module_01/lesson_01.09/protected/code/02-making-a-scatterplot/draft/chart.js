@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+/* global d3 */
 
 async function drawScatter() {
 
@@ -7,6 +8,8 @@ async function drawScatter() {
 
   const xAccessor = d => d.dewPoint
   const yAccessor = d => d.humidity
+  const colorAccessor = d => d.cloudCover
+
 
   // 2. Create chart dimensions
 
@@ -57,6 +60,11 @@ async function drawScatter() {
     .range([dimensions.boundedHeight, 0])
     .nice()
 
+  const colorScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, colorAccessor))
+    .range(["skyblue", "darkslategrey"])
+
+
   // 5. Draw data
 
   const dots = bounds.selectAll("circle")
@@ -65,6 +73,7 @@ async function drawScatter() {
       .attr("cx", d => xScale(xAccessor(d)))
       .attr("cy", d => yScale(yAccessor(d)))
       .attr("r", 4)
+      .attr("fill", d => colorScale(colorAccessor(d)))
 
 }
 drawScatter()

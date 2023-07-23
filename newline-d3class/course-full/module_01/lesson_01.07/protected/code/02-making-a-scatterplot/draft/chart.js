@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function drawScatter() {
 
@@ -61,10 +62,47 @@ async function drawScatter() {
 
   const dots = bounds.selectAll("circle")
     .data(dataset)
-    .enter().append("circle")
+
+  dots.join("circle")
       .attr("cx", d => xScale(xAccessor(d)))
       .attr("cy", d => yScale(yAccessor(d)))
       .attr("r", 4)
+      .attr("fill", "cornflowerblue")
+  
+  const xAxisGenerator = d3.axisBottom()
+      .scale(xScale)
+  
+  const xAxis = bounds.append("g")
+      .call(xAxisGenerator)
+      .style("transform", `translateY(${
+        dimensions.boundedHeight
+      }px)`)
+  
+  const xAxisLabel = xAxis.append("text")
+      .attr("x", dimensions.boundedWidth/2)
+      .attr("y", dimensions.margin.bottom - 10)
+      .attr("fill", "currentcolor")
+      .style("font-size", "1.4em")
+      .html("Dew point (&deg;F)")
+  
+  const yAxisGenerator = d3.axisLeft()
+      .scale(yScale)
+      .ticks(4)
+  
+  const yAxis = bounds.append("g")
+      .call(yAxisGenerator)
+  
+  const yAxisLabel = yAxis.append("text")
+      .attr("x", -dimensions.boundedHeight/2)
+      .attr("y", -dimensions.margin.left + 10)
+      .attr("fill", "currentcolor")
+      .attr("font-size", "1.4em")
+      .html("Relative Humidity")
+      .style("transform", "rotate(-90deg)")
+      .style("text-anchor", "middle")
+
+  
+
 
 }
 drawScatter()

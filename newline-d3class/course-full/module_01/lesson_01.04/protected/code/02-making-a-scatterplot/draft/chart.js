@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function drawScatter() {
 
@@ -30,6 +31,21 @@ async function drawScatter() {
   dimensions.boundedHeight = dimensions.height
     - dimensions.margin.top
     - dimensions.margin.bottom
+
+  const wrapper = d3.select("#wrapper")
+    .append("svg")
+    .attr("width", dimensions.width)
+    .attr("height", dimensions.height)
+    .style("border", "1px solid")
+  
+  const bounds = wrapper.append("g")
+    .style("transform", `translate(${
+      dimensions.margin.left
+    }px, ${
+      dimensions.margin.top
+    }px)`)
+
+
 
 }
 drawScatter()
