@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function drawLineChart() {
   const dataset = await d3.json("./data/my_weather_data.json");
@@ -32,6 +33,14 @@ async function drawLineChart() {
     .append("svg")
       .attr("width", dimensions.width)
       .attr("height", dimensions.height)
+
+  const bounds = wrapper.append("g")
+      .style("transform", `translate(${
+        dimensions.margin.left
+      }px, ${
+        dimensions.margin.top
+      }px)`)
+  console.log(bounds)
 
 }
 

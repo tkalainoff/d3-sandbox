@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+/* global d3 */
 
 async function drawLineChart() {
   const dataset = await d3.json("./data/my_weather_data.json");
@@ -26,6 +27,9 @@ async function drawLineChart() {
     - dimensions.margin.top
     - dimensions.margin.bottom
 
+  const wrapper = d3.select("#wrapper")
+  console.log(wrapper)
+  
 }
 
 drawLineChart()

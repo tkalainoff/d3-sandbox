@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function drawLineChart() {
   const dataset = await d3.json("./data/my_weather_data.json");
@@ -68,8 +69,25 @@ async function drawLineChart() {
   const line = bounds.append("path")
       .attr("d", lineGenerator(dataset))
       .attr("fill", "none")
-      .attr("stroke", "#af9358")
+      .attr("stroke", "cornflowerblue")
       .attr("stroke-width", 2)
+  
+  const yAxisGenerator = d3.axisLeft()
+      .scale(yScale)
+  
+  const yAxis = bounds.append("g")
+      .call(yAxisGenerator) // other method to draw the axis
+  // yAxisGenerator(yAxis)
+
+  const xAxisGenerator = d3.axisBottom()
+      .scale(xScale)
+
+  const xAxis = bounds.append("g")
+      .call(xAxisGenerator)
+      .style("transform", `translateY(${
+        dimensions.boundedHeight
+      }px)`)
+
 
 }
 
