@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function drawBars() {
   // 1. Access data
@@ -32,6 +33,11 @@ async function drawBars() {
     .append("svg")
     .attr("width", dimensions.width)
     .attr("height", dimensions.height)
+  
+  wrapper.attr("role", "figure")
+      .attr("tabindex", "0")
+    .append("title")
+      .text("Histogram looking at the distribution of humidity over 2019")
 
   const bounds = wrapper
     .append("g")
@@ -65,10 +71,22 @@ async function drawBars() {
   // 5. Draw data
 
   const binsGroup = bounds.append("g")
+    .attr("tabindex", "0")
+    .attr("role", "list")
+    .attr("aria-label", "histogram bars")
 
   const binGroups = binsGroup.selectAll("g")
     .data(bins)
     .join("g")
+      .attr("tabindex", "0")
+      .attr("role", "listitem")
+      .attr("aria-label", d => `There were ${
+        yAccessor(d)
+      } days between ${
+        d.x0
+      } and ${
+        d.x1
+      } humidity levels`)
 
   const barPadding = 1
   const barRects = binGroups
