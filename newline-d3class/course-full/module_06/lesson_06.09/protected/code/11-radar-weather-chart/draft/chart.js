@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */ 
 
 async function drawChart() {
 
@@ -104,6 +105,10 @@ async function drawChart() {
   const precipitationTypeColorScale = d3.scaleOrdinal()
     .domain(precipitationTypes)
     .range(["#54a0ff", "#636e72", "#b2bec3"])
+  
+  const tempColorScale = d3.scaleSequential()
+    .domain(radiusScale.domain())
+    .interpolator(gradientColorScale)
 
   // 6. Draw peripherals
 
@@ -266,6 +271,101 @@ async function drawChart() {
 
   // 7. Set up interactions
 
+  const listenerCircle = bounds.append("circle")
+      .attr("r", dimensions.width / 2)
+      .attr("class", "listener-circle")
+      .on("mousemove", onMouseMove)
+      .on("mouseleave", onMouseLeave)
+
+  const tooltip = d3.select("#tooltip")
+  const tooltipLine = bounds.append("path")
+    .attr("class", "tooltip-line")
+
+  function onMouseMove(event) {
+    // console.log(d3.pointer(event))
+    const [x, y] = d3.pointer(event)
+
+    const getAngleFromCoordinates = (x, y) => (
+      Math.atan2(y, x)
+    )
+
+    let angle = getAngleFromCoordinates(x, y)
+      + Math.PI / 2
+    if (angle < 0) angle = (Math.PI * 2) + angle
+    // console.log(angle)
+
+    const tooltipArcGenerator = d3.arc()
+        .innerRadius(0)
+        .outerRadius(dimensions.boundedRadius * 1.6)
+        .startAngle(angle - 0.015)
+        .endAngle(angle + 0.015)
+
+    tooltipLine.attr("d", tooltipArcGenerator())
+        .style("opacity", 1)
+
+    const outerCoordinates = getCoordinatesForAngle(angle, 1.6)
+    tooltip.style("opacity", 1)
+      .style("transform", `translate(calc(-50% + ${
+        outerCoordinates[0] + dimensions.margin.left + dimensions.boundedRadius
+      }px), calc(-100% + ${
+        outerCoordinates[1]+ dimensions.margin.top + dimensions.boundedRadius
+      }px))`)
+
+// need to fix below code
+  //   tooltip.style("opacity", 1)
+  //   .style("transform", `translate(calc(${
+  //     outerCoordinates[0] < -50 ? "40px -100" :
+  //     outerCoordinates[0] > 50 ? "-40px + 0" :
+  //     -50
+  //  }% + ${
+  //     outerCoordinates[0] + dimensions.margin.left + dimensions.boundedRadius
+  //  }px), calc(${
+  //     outerCoordinates[1] < -50 ? "40px -100" :
+  //     outerCoordinates[1] > 50 ? "-40px + 0" :
+  //     -50
+  //  }% + ${
+  //    outerCoordinates[1] + dimensions.margin.top + dimensions.boundedRadius
+  //  }px))`)
+
+   const date = angleScale.invert(angle)
+   const dateString = d3.timeFormat("%Y-%m-%d")(date)
+  //  console.log(dateString)
+   const dataPoint = dataset.find(d => d.date == dateString)
+   if (!dataPoint) return
+
+  tooltip.select("#tooltip-date")
+      .text(d3.timeFormat("%B %-d")(date))
+  tooltip.select("#tooltip-temperature-min")
+      .html(`${d3.format(".1f")(temperatureMinAccessor(dataPoint))}°F`)
+  tooltip.select("#tooltip-temperature-max")
+      .html(`${d3.format(".1f")(temperatureMaxAccessor(dataPoint))}°F`)
+  tooltip.select("#tooltip-uv")
+      .text(uvAccessor(dataPoint))
+  tooltip.select("#tooltip-cloud")
+      .text(cloudAccessor(dataPoint))
+  tooltip.select("#tooltip-precipitation")
+      .text(d3.format(".0%")(precipitationProbabilityAccessor(dataPoint)))
+  tooltip.select("#tooltip-precipitation-type")
+      .text(precipitationTypeAccessor(dataPoint))
+  tooltip.select(".tooltip-precipitation-type")
+      .style("color", precipitationTypeAccessor(dataPoint)
+      ? precipitationTypeColorScale(precipitationTypeAccessor(dataPoint))
+      : "#dadadd")
+      tooltip.select("#tooltip-temperature-min")
+      .style("color", tempColorScale(
+        temperatureMinAccessor(dataPoint)
+       ))
+   tooltip.select("#tooltip-temperature-max")
+      .style("color", tempColorScale(
+        temperatureMaxAccessor(dataPoint)
+       ))
+
+  }
+
+  function onMouseLeave(event) {
+    tooltipLine.style("opacity", 0)
+    tooltip.style("opacity", 0)
+  }
 
 }
 drawChart()
