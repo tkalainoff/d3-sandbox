@@ -19,6 +19,10 @@ circle {
     fill: cornflowerblue;
 }
 
+.voronoi {
+    fill: transparent;
+    /* stroke: salmon; */
+}
 body {
     display: flex;
     justify-content: center;

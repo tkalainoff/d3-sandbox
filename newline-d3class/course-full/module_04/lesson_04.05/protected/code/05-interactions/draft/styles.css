@@ -19,6 +19,20 @@
     transform: rotate(-90deg);
 }
 
+.listener-rect {
+    fill: transparent; 
+    /* don't use "none" */
+}
+
+.tooltip-circle {
+    stroke: #af9358;
+    stroke-width: 2;
+    fill: white;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
 body {
     display: flex;
     justify-content: center;
