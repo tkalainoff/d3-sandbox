@@ -125,7 +125,7 @@ async function drawBars() {
         ]))
         .attr("height", d => dimensions.boundedHeight - yScale(yAccessor(d)))
         .transition()
-        .style("fill", "cornflowerblue")
+          .style("fill", "cornflowerblue")
 
     console.log(barRects)
 

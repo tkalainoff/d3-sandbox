@@ -13,6 +13,9 @@ body {
     background: #f8f9fa;
 }
 
+svg {
+    overflow: visible;
+}
 .title {
     position: relative;
     width: 600px;
@@ -25,4 +28,57 @@ body {
     display: flex;
     align-items: center;
     font-feature-settings: 'tnum' 1;
+}
+
+.grid-line {
+    fill: none;
+    stroke: lightgray;
+}
+
+.tick-label {
+    dominant-baseline: middle;
+    fill: #8395a7;
+    font-size: 0.7em;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+
+}
+
+.tick-label-temp {
+    dominant-baseline: middle;
+    fill: #8395a7;
+    opacity: 0.7;
+    font-size: 0.7em;
+
+}
+
+.freezing-circle {
+    fill: #00d2d3;
+    opacity: 0.15;
+}
+
+.uv-line {
+    stroke: #feca57;
+    stroke-width: 2;
+}
+
+.cloud-dot {
+    fill: #c8d6e5;
+    opacity: 0.6;
+    /* mix-blend-mode: multiply; */
+}
+
+.precip-dot {
+    opacity: 0.5;
+}
+
+.annotation-line {
+    stroke: #34495e;
+    opacity: 0.4;
+}
+
+.annotation-text {
+    fill: #34495e;
+    font-size: 0.7em;
+    dominant-baseline: middle;
 }

@@ -46,7 +46,8 @@ async function drawBars() {
 
   const drawHistogram = metric => {
     const metricAccessor = d => d[metric]
-    const yAccessor = d => d.length
+    // const yAccessor = d => d.length
+    const yAccessor = (d) => d.length
 
     // 4. Create scales
 
@@ -97,10 +98,9 @@ async function drawBars() {
 
     const barText = binGroups.select("text")
         .attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
-        .attr("y", d => yScale(yAccessor(d)) - 5)
         .text(yAccessor)
         .style("transform", d => `translateY(${
-          yScale(yAccessor(d)) - 5
+          yScale(yAccessor(d) + 2)
         }px)`)
 
     const mean = d3.mean(dataset, metricAccessor)
@@ -110,7 +110,7 @@ async function drawBars() {
         // .attr("x2", xScale(mean))
         .attr("y1", -20)
         .attr("y2", dimensions.boundedHeight)
-        .style("transform", d => `translateY(${
+        .style("transform", `translateX(${
           xScale(mean)
         }px)`)
 

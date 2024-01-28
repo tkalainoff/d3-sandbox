@@ -1,5 +1,6 @@
 // import * as d3 from "d3";
- /* global d3 */
+ /* global d3 */ 
+
 
 async function createEvent() {
   const rectColors = [
@@ -20,20 +21,21 @@ async function createEvent() {
       .attr("fill", "lightgrey")
 
   // your code here
-  rects.on("mouseenter", (event, d) => {
-    console.log({event, d})
-    console.log(event.currentTarget)
 
-    const selection = d3.select(event.currentTarget)
-    selection.attr("fill", d)
+    console.log(rects)
+    rects.on("mouseenter", (event, d) => {
 
-    console.log(selection)
-  })
+      console.log({ event, d })
+      console.log(event.currentTarget)
 
-  .on("mouseleave", () => {
-    const selection = d3.select(event.currentTarget)
-    selection.attr("fill", "lightgrey")
-  })
+      const selection = d3.select(event.currentTarget)
+      selection.attr("fill", d)
 
+      console.log(selection)
+    })
+    .on("mouseleave", (event) => {
+      const selection = d3.select(event.currentTarget)
+      selection.attr("fill", "lightgrey")
+    })
 }
 createEvent()
