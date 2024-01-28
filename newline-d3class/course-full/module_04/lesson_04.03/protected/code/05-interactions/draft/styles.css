@@ -1,8 +1,13 @@
 .wrapper {
+    position: relative;
 }
 
 .bin rect {
     fill: cornflowerblue;
+}
+
+.bin:hover rect {
+    fill: purple;
 }
 
 .bin text {
@@ -31,7 +36,7 @@ body {
 }
 
 .tooltip {
-    opacity: 0;
+    opacity: 0; 
     position: absolute;
     top: -12px;
     left: 0;

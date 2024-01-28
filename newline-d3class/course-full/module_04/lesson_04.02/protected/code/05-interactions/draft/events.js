@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+ /* global d3 */
 
 async function createEvent() {
   const rectColors = [
@@ -29,5 +30,11 @@ async function createEvent() {
     selection.attr("fill", "lightgrey")
   })
 
+  setTimeout(() => {
+    rects
+      .dispatch("mouseleave")
+      .on("mouseenter", null)
+      .on("mouseleave", null)
+  }, 3000)
 }
 createEvent()
